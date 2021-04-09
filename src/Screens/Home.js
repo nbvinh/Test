@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { add, addtext, remove } from "../reducers/action";
@@ -14,15 +14,18 @@ export default function Home() {
     ]
     const onADD = () => {
         dispatch(add(data))
+        refText.current.clear()
     }
     const onDelete = (item) => {
         dispatch(remove(item))
     }
+    const refText = useRef()
     const data1 = useSelector(store => store.TestReducers.data)
     return (
         <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <TextInput
+                    ref={refText}
                     onChangeText={(value) => onText(value)}
                     value={text}
                     style={styles.textInput}
