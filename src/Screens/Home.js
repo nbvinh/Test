@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
+import { add, addtext,remove } from "../reducers/action";
 const { height, width } = Dimensions.get('screen')
 export default function Home() {
     const dispatch = useDispatch()
     const onText = (value) => {
-        dispatch({ type: 'TEXT', text: value })
+        dispatch(addtext(value))
     }
     const text = useSelector(store => store.TestReducers.text)
     const data = [
         { id: Math.random(), text: text }
     ]
     const onADD = () => {
-        dispatch({ type: 'ADD', data: data })
+        dispatch(add(data))
     }
     const onDelete = (item) => {
-        dispatch({ type: 'DELETE', data: item })
+        dispatch(remove(item))
     }
     const data1 = useSelector(store => store.TestReducers.data)
     return (
@@ -83,7 +84,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginLeft: 10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+
     },
     text: {
         fontSize: 14,
