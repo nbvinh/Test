@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TextInput, Dimensions, TouchableOpacity, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { add, addtext,remove } from "../reducers/action";
+import { add, addtext, remove } from "../reducers/action";
 const { height, width } = Dimensions.get('screen')
 export default function Home() {
     const dispatch = useDispatch()
@@ -20,7 +20,7 @@ export default function Home() {
     }
     const data1 = useSelector(store => store.TestReducers.data)
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.header}>
                 <TextInput
                     onChangeText={(value) => onText(value)}
@@ -34,27 +34,26 @@ export default function Home() {
                     <Text>ADD</Text>
                 </TouchableOpacity>
             </View>
-            <View style={styles.body}>
-                {
-                    data1 && data1.map((item) => {
-                        return (
-                            <View key={item.id.toString()} style={styles.content}>
-                                <View style={[styles.textInput, { marginBottom: 10 }]}>
-                                    <Text style={styles.text}>{item.text}</Text>
-                                </View>
-                                <TouchableOpacity
-                                    onPress={() => onDelete(item)}
-                                    style={styles.add}
-                                >
-                                    <Text>Remove</Text>
-                                </TouchableOpacity>
+            {
+                data1 && data1.map((item) => {
+                    return (
+                        <View key={item.id.toString()} style={styles.content}>
+                            <View style={[styles.textInput, { marginBottom: 10 }]}>
+                                <Text style={styles.text}>{item.text}</Text>
                             </View>
+                            <TouchableOpacity
+                                onPress={() => onDelete(item)}
+                                style={styles.add}
+                            >
+                                <Text>Remove</Text>
+                            </TouchableOpacity>
+                        </View>
 
-                        )
-                    })
-                }
-            </View>
-        </View >
+                    )
+                })
+            }
+
+        </ScrollView >
     )
 }
 const styles = StyleSheet.create({
@@ -64,12 +63,7 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center',
         marginVertical: 20
-    },
-    body: {
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     textInput: {
         width: width - 150,
@@ -91,6 +85,7 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     content: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        justifyContent: 'center'
     }
 })
